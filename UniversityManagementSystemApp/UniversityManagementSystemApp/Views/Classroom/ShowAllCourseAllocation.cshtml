@@ -1,0 +1,108 @@
+﻿@using UniversityManagementSystemApp.Models
+@{
+    ViewBag.Title = "ShowAllCourseAllocation";
+    Layout = "~/Views/Shared/_MyLayout.cshtml";
+    List<Department> departments = ViewBag.Department;
+}
+
+
+<fieldset class="the-fieldset">
+    <legend class="the-legend">View Class Schedule and Room Allocation Information</legend>
+
+    <div>
+        @if (ViewBag.SuccessMessage != null)
+        {
+            <div class="success-message">
+                <span class="success-message">@ViewBag.SuccessMessage</span>
+            </div>
+
+        }
+        @if (ViewBag.ErrorMessage != null)
+        {
+            <div class="error-message">
+                <span class="error-message">@ViewBag.ErrorMessage</span>
+            </div>
+        }
+
+
+        <form class="form-horizontal" name="f" id="form-show-all-course-schedulr" method="POST">
+
+            <div class="form-group">
+                <label class="control-label col-sm-3" for="dept">Department:</label>
+                <div class="col-sm-6">
+
+                    <select class="form-control" name="dept" id="dept">
+                        <option value="">--Select Department--</option>
+                        @foreach (var department in departments)
+                        {
+                            <option value="@department.Code">@department.Name</option>
+                        }
+                    </select>
+                </div>
+                <div class="3"></div>
+            </div>
+
+        </form>
+    </div>
+    
+    <div>
+        <div>
+            <table class="table table-hover table-bordered" id="table-course-schedule">
+                <thead>
+                    <tr>
+                        <th>Course Code</th>
+                        <th>Name</th>
+                        <th>Schedule Info</th>
+                        
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+</fieldset>
+
+@section scripts
+{
+    
+    <script>
+        $(document).ready(function() {
+            $("#dept").change(function() {
+                var departmentCode = $("#dept").val();
+                $("#table-course-schedule").empty();
+                var json = { dept: departmentCode };
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("GetAllocatedRoomsByDept", "Classroom")',
+                    contentType: "application/json;Charset=utf-8",
+                    data: JSON.stringify(json),
+                    success: function(data) {
+                        $("#table-course-schedule").append('<thead><tr><th>Course Code</th><th>Name/Title</th><th>Schedule Infor</th></tr><thead>');
+                        var html = "'<tbody>";
+                        for (var i = 0; i < data.length; i++) {
+                            var dtr = data[i];
+                            html += '<tr><td>' + dtr.Code + '</td><td>' + dtr.CourseName + '</td><td>';
+                            for (var j = 0; j < dtr.RoomAndTimes.length; j++) {
+                                var dt = dtr.RoomAndTimes[j];
+
+                                var tm = 'Room No: ' + dt.RoomNo + ', ' + dt.DayName + ', ' + dt.FromTimeString + ' to ' + dt.ToTimeString;
+                                if (dt.RoomNo == 'Not Scheduled Yet') {
+                                    tm = dt.RoomNo;
+                                }
+
+                                html += '<p>' + tm + '</p>';
+
+                            }
+                            html += '</td></tr>';
+                        }
+                        html += '</tbody>';
+                        $("#table-course-schedule").append(html);
+
+                    }
+                });
+            });
+        });
+    </script>
+    
+
+}

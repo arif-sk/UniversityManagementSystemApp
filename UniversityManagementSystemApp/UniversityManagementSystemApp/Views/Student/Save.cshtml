@@ -1,0 +1,206 @@
+﻿@using UniversityManagementSystemApp.Models
+@model UniversityManagementSystemApp.Models.Student
+@{
+    ViewBag.Title = "Save";
+    Layout = "~/Views/Shared/_MyLayout.cshtml";
+    List<Department> departments = ViewBag.Department;
+    Student st = ViewBag.StudentInfo;
+}
+@section style
+{
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.css" rel="stylesheet" type="text/css" />
+
+
+}
+
+
+<fieldset class="the-fieldset">
+    <legend class="the-legend">Register Student</legend>
+
+    @if (ViewBag.SuccessMessage != null)
+    {
+        <div class="success-message">
+            <span class="success-message">@ViewBag.SuccessMessage</span>
+        </div><br /><br />
+
+    }
+    @if (ViewBag.ErrorMessage != null)
+    {
+        <div class="error-message">
+            <span class="error-message">@ViewBag.ErrorMessage</span>
+        </div><br /><br />
+    }
+
+    @if (ViewBag.StudentInfo != null)
+    {
+        <div align="center" style="color: green;">
+            <table>
+                <tr>
+                    <td>
+                        <label>Name:</label>
+                    </td>
+                    <td>
+                        <label>@st.Name</label>
+                    </td>
+                    <td>
+                        <label>Email:</label>
+                    </td>
+                    <td>
+                        <label>@st.Email</label>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <label>Address:</label>
+                    </td>
+                    <td>
+                        <label>@st.Address</label>
+                    </td>
+                    <td>
+                        <label>Registration Number:</label>
+                    </td>
+                    <td>
+                        <label>@st.RegistrationNo</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>Department:</label>
+                    </td>
+                    <td>
+                        <label>@ViewBag.StudentDept</label>
+                    </td>
+                    <td>
+                        <label>Date:</label>
+                    </td>
+                    <td>
+                        <label>@st.CreatedAt.Date.ToShortDateString()</label>
+                    </td>
+                </tr>
+            </table>
+        </div><br><br />
+    }
+    <form class="form-horizontal" id="form-department" method="POST">
+
+        <div class="form-group">
+            <label class="control-label col-sm-3" for="Name">Name:</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" id="Name" name="Name" placeholder="Enter Name">
+            </div>
+            <div class="3"></div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-3" for="Email"> Email:</label>
+            <div class="col-sm-6">
+                <input type="email" class="form-control" id="Email" name="Email" placeholder="Enter Email">
+            </div>
+            <div class="3">
+                <span id="result"></span>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label class="control-label col-sm-3" for="ContactNo"> Contact No.:</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" id="ContactNo" name="ContactNo" placeholder="Enter Contact No.">
+            </div>
+            <div class="3"></div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-3" for="CreatedAt">Date:</label>
+            <div class="col-sm-6">
+                <input type="date" class="form-control" name="CreatedAt" id="CreatedAt" value="">
+            </div>
+            <div class="3"></div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-sm-3" for="Address">Address:</label>
+            <div class="col-sm-6">
+                <textarea id="Address" name="Address" placeholder="Enter Address" rows="5" cols="40"></textarea>
+            </div>
+            <div class="3"></div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-3" for="DepartmentId">Department:</label>
+            <div class="col-sm-6">
+
+                <select class="form-control" name="DepartmentId" id="DepartmentId">
+                    <option value="">--Select Department--</option>
+                    @foreach (Department department in departments)
+                    {
+                        <option value="@department.Id">@department.Name</option>
+                    }
+
+                </select>
+            </div>
+            <div class="3"></div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-9">
+                <button type="submit" id="submit" class="btn btn-default">Save</button>
+            </div>
+        </div>
+    </form>
+
+</fieldset>
+
+
+
+
+@section scripts
+{
+<script src="~/Scripts/jquery-3.2.1.min.js"></script>
+    
+   
+<script src="~/Scripts/jquery.validate.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var date = new Date();
+
+            var day = date.getDate();
+            var month = date.getMonth() + 1;
+            var year = date.getFullYear();
+
+            if (month < 10) month = "0" + month;
+            if (day < 10) day = "0" + day;
+
+            var today = year + "-" + month + "-" + day;
+            $("#CreatedAt").attr("value", today);
+        });
+
+    </script>
+     <script>
+         $(document).ready(function () {
+             $("#form-department").validate({
+                 rules: {
+
+                     Name: "required",
+                     Email: "required",
+                     ContactNo: "required",
+                     CreatedAt: "required",
+                     Address: "required",
+                     DepartmentId: "required",
+
+                 },
+                 messages: {
+
+                     Name: "Please prvide Name",
+                     Email: "Please prvide Email",
+                     ContactNo: "Please prvide Contact No",
+                     CreatedAt: "Please prvide Date",
+                     Address: "Please prvide Address",
+                     DepartmentId: "Please select Department",
+
+                 }
+             });
+         });
+
+
+
+     </script>
+}

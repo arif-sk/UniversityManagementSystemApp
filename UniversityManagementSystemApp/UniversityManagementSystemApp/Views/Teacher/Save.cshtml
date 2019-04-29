@@ -1,0 +1,150 @@
+﻿@using UniversityManagementSystemApp.Models;
+@{
+    Layout = "~/Views/Shared/_MyLayout.cshtml";
+    List<Designation> designations = ViewBag.Designation;
+    List<Department> departments = ViewBag.Deartment;
+
+}
+
+                <div>
+                    <div class="form-group">
+                        <fieldset class="the-fieldset">
+                            <legend class="the-legend">Save Teacher</legend>
+
+                            <div>
+                                @if (ViewBag.SuccessMessage != null)
+                                {
+                                    <div class="success-message">
+                                        <span class="success-message">@ViewBag.SuccessMessage</span>
+                                    </div>
+
+                                }
+                                @if (ViewBag.ErrorMessage != null)
+                                {
+                                    <div class="error-message">
+                                        <span class="error-message">@ViewBag.ErrorMessage</span>
+                                    </div>
+                                }
+
+                                <form class="form-horizontal" id="form-department" method="POST">
+
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3" for="Name">Name:</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" id="Name" name="Name" placeholder="Enter Name">
+                                        </div>
+                                        <div class="3"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3" for="Address"> Address:</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" id="Address" name="Address" placeholder="Enter Address">
+                                        </div>
+                                        <div class="3"></div>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3" for="Email"> Email :</label>
+                                        <div class="col-sm-6">
+                                            <input type="email" class="form-control" id="Email" name="Email" placeholder="Enter Email">
+                                        </div>
+                                        <div class="3"></div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3" for="ContactNo">Contact No:</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" id="ContactNo" name="ContactNo" placeholder="Enter ContactNo">
+                                        </div>
+                                        <div class="3"></div>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3" for="DesignationId">Designation:</label>
+                                        <div class="col-sm-6">
+
+                                            <select class="form-control" name="DesignationId" id="DesignationId">
+
+                                                <option value="">--Select  Designation--</option>
+                                                @foreach (var designation in designations)
+                                                {
+                                                    <option value="@designation.Id">@designation.Name</option>
+                                                }
+
+                                            </select>
+                                      </div>
+                                        <div class="3"></div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3" for="DepartmentId">Department:</label>
+                                        <div class="col-sm-6">
+
+                                            <select class="form-control" name="DepartmentId" id="DepartmentId">
+                                                <option value="">--Select Department--</option>
+                                                @foreach (var department in departments)
+                                                {
+                                                    <option value="@department.Id">@department.Name</option>
+                                                }
+                                            </select>
+                                        </div>
+                                        <div class="3"></div>
+                                    </div>
+
+
+
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3" for="Credit">Credit:</label>
+                                        <div class="col-sm-6">
+                                            <input type="number" class="form-control" id="Credit" name="Credit" placeholder="Enter Credit" required="required">
+                                        </div>
+                                        <div class="3"></div>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-3 col-sm-9">
+                                            <button type="submit" class="btn btn-default">Save</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </fieldset>
+ 
+                    </div>
+                </div>
+            
+
+
+    <script src="~/Scripts/jquery-3.2.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $("#form-department").validate({
+                rules: {
+                    Name: "required",
+                    Address: "required",
+                    Email: "required",
+                    ContactNo: "required",
+                    DesignationId: "required",
+                    DepartmentId: "required",
+                    Credit: {
+                        min: 0
+                    }
+                },
+                messages: {
+                    Name: "Please Provide Name",
+                    Address: "Please Provide Address",
+                    Email: "Please Provide Valid Email",
+                    ContactNo: "Please Provide Contact",
+                    DesignationId: "Please Select Designation",
+                    DepartmentId: "Please Select Department",
+                    Credit: "Credit couldn't be empty or negative"
+                }
+            });
+        });
+
+    </script>

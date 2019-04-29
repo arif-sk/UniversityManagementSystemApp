@@ -1,0 +1,138 @@
+﻿<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        <title>@ViewBag.Title</title>
+        @Styles.Render("~/Content/bootstrap.min.css")
+        @Styles.Render("~/CSS/navbarcss.css")
+        @Styles.Render("~/CSS/departmentcss.css")
+        @Styles.Render("~/CSS/sitecss.css")
+        @RenderSection("style", required: false)
+        @Styles.Render("https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css")
+        <link rel="stylesheet" type="text/css" href="http://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" />
+        <script src="~/Scripts/jquery-3.2.1.min.js"></script>
+        <script src="~/Scripts/jquery.validate.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+   
+        <script type="text/javascript" src="http://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    </head>
+
+<body id="bdy" style="background-image: url(/CSS/518164-backgrounds.jpg)">
+    <div>
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/Home/Index">University Management</a>
+                </div>
+                <ul class="nav navbar-nav">
+                    <li><a href="/Home/Index">Home</a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2">
+                <ul class="nav nav-stacked" style="margin-top: 30px;">
+                    <li>
+                        <div class="btn-group">
+
+                            <a style="width: 150px; text-align: left;" class="list-group-item list-group-anchor-borderless left-panel-item btn dropdown-toggle drp-item" data-toggle="dropdown" href="#">
+                                <i class="fa fa-hand-o-right "></i>
+                                Department
+
+                            </a>
+
+                            <ul class="dropdown-menu">
+                                <li><a class="list-group-item list-group-anchor-borderless left-panel-item drp-item" href="/Department/Save">Add Department</a></li>
+                                <li><a class="list-group-item list-group-anchor-borderless left-panel-item drp-item" href="/Department/ViewAllDepartment">View All Departments</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li>
+                        <div  class="btn-group">
+                            <a style="width: 150px; text-align: left; " class="list-group-item list-group-anchor-borderless left-panel-item btn dropdown-toggle drp-item" data-toggle="dropdown" href="#">
+                                <i class="fa fa-check-circle" aria-hidden="true"></i>
+                                Course
+                                <i class="icon icon-caret-right"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="list-group-item list-group-anchor-borderless left-panel-item drp-item" href="/Course/Save">Add Course</a></li>
+                                <li><a class="list-group-item list-group-anchor-borderless left-panel-item drp-item" href="/Course/ShowAllCourses">View Course Statistics</a></li>
+                                <li><a class="list-group-item list-group-anchor-borderless left-panel-item drp-item" href="/Course/UnassignAllCourses">Unassign All Courses</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li>
+                        <div  class="btn-group">
+                            <a style="width: 150px; text-align: left; " class="list-group-item list-group-anchor-borderless left-panel-item btn dropdown-toggle drp-item" data-toggle="dropdown" href="#">
+                                <i class="fa fa-user"></i>
+                                Teacher
+
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="list-group-item list-group-anchor-borderless left-panel-item drp-item" href="/Teacher/Save">Add Teacher</a></li>
+                                <li><a class="list-group-item list-group-anchor-borderless left-panel-item drp-item" href="/Teacher/AssignCourse">Assign Course Teacher</a></li>
+
+                            </ul>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="btn-group">
+                            <a style="width: 150px; text-align: left; " class="list-group-item list-group-anchor-borderless left-panel-item btn dropdown-toggle drp-item" data-toggle="dropdown" href="#">
+                                <i class="fa fa-child"></i>
+                                Student
+
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="list-group-item list-group-anchor-borderless left-panel-item drp-item" href="/Student/Save">Register Student</a></li>
+                                <li><a class="list-group-item list-group-anchor-borderless left-panel-item drp-item" href="/Student/EnrollCourse">Enroll In a Course</a></li>
+                                <li><a class="list-group-item list-group-anchor-borderless left-panel-item drp-item" href="/Student/SaveStudentResult">Save Student Result</a></li>
+                                <li><a class="list-group-item list-group-anchor-borderless left-panel-item drp-item" href="/Student/ViewStudentResult">View Student Result</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="btn-group">
+                            <a style="width: 150px; text-align: left;"  class="list-group-item list-group-anchor-borderless left-panel-item btn dropdown-toggle drp-item" data-toggle="dropdown" href="#">
+                                <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                                Class Schedule
+
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="list-group-item list-group-anchor-borderless left-panel-item drp-item" href="/Classroom/Allocateclassroom">Allocate Classroom</a></li>
+                                <li><a class="list-group-item list-group-anchor-borderless left-panel-item drp-item" href="/Classroom/ShowAllCourseAllocation">View Class Schedule</a></li>
+                                <li><a class="list-group-item list-group-anchor-borderless left-panel-item drp-item" href="/Classroom/UnallocateAllClassroom">Unallocate Classrooms</a></li>
+
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+
+
+
+            </div>
+            <div style="margin-bottom:100px;" class="col-md-9">
+                @RenderBody()
+            </div>
+            <div class="col-md-1">
+                <div id="image-right">
+
+                    <img width="150px" src="~/CSS/logobitm.png" />
+                </div>
+            </div>
+
+        </div>
+        <div >
+
+
+            <footer id="ftr" class="nav navbar-fixed-bottom" style="width: 100%">
+                <p align="center">&copy; CopyRight Law @DateTime.Now.Year - All Rights Reserved By Dot Net Learners</p>
+            </footer>
+        </div>
+
+    </div>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

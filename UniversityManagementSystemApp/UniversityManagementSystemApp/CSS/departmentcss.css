@@ -1,0 +1,14 @@
+﻿.error-message {
+    color: red;
+    text-align: center;
+}
+.success-message {
+    color: green;
+    text-align: center;
+}
+label.error {
+    color: red;
+}
+.list-group {
+    margin-bottom: 0 !important;
+}

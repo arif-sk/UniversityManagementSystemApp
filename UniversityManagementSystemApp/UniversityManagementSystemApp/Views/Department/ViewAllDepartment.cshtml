@@ -1,0 +1,42 @@
+﻿@using UniversityManagementSystemApp.Models
+@{
+    ViewBag.Title = "ViewAllDepartment";
+    Layout = "~/Views/Shared/_MyLayout.cshtml";
+    List<Department> departments = ViewBag.Department;
+}
+
+<div>
+    
+
+            
+    <div class="form-group">
+        <fieldset class="the-fieldset">
+            <legend class="the-legend">View All Departments</legend>
+
+            <div>
+                <div>
+                    <table class="table table-hover table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Code</th>
+                                <th>Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var v in departments)
+                            {
+                                <tr>
+                                    <td>@v.Code</td>
+                                    <td>@v.Name</td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </fieldset>
+
+
+    </div>
+</div>

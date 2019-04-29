@@ -1,0 +1,181 @@
+﻿@using UniversityManagementSystemApp.Models
+
+@{
+    ViewBag.Title = "ViewStudentResult";
+    Layout = "~/Views/Shared/_MyLayout.cshtml";
+    List<Student> students = ViewBag.Student;
+}
+
+<div>
+    <div class="form-group">
+        <fieldset class="the-fieldset">
+            <legend class="the-legend">View Result</legend>
+
+            <div>
+                @if (ViewBag.SuccessMessage != null)
+                {
+                    <div class="success-message">
+                        <span class="success-message">@ViewBag.SuccessMessage</span>
+                    </div>
+
+                }
+                @if (ViewBag.ErrorMessage != null)
+                {
+                    <div class="error-message">
+                        <span class="error-message">@ViewBag.ErrorMessage</span>
+                    </div>
+                }
+
+
+                <form class="form-horizontal" name="form-student-enroll-course" id="student-enroll-course" action="/Student/MakePDF/" method="POST">
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-3" for="StudentId">Student Reg. No:</label>
+                        <div class="col-sm-6">
+
+                            <select class="form-control" name="StudentId" id="StudentId">
+                                <option value="">--Select Reg No--</option>
+                                @foreach (var s in students)
+                                {
+                                    <option value="@s.Id">@s.RegistrationNo</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="3"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-3" for="Name">Name:</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="Name" name="Name" readonly>
+                        </div>
+                        <div class="3"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-3" for="Email">Email:</label>
+                        <div class="col-sm-6">
+                            <input type="Email" class="form-control" id="Email" name="Email" readonly>
+                        </div>
+                        <div class="3"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-3" for="DepartmentName">Department:</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="DepartmentName" name="DepartmentName" readonly>
+                            <input type="hidden" name="DepartmentId" id="DepartmentId" value="" />
+                        </div>
+                        <div class="3"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="col-sm-offset-3 col-sm-9">
+                            <!--<button type="submit" class="btn btn-default" onclick="return MyFunction()">Assign</button>-->
+                            <input type="submit" class="btn btn-default" value="Make PDF" />
+                            
+                        </div>
+                    </div>
+                </form>
+            </div>
+            
+            <div>
+                <table class="table table-hover table-bordered" id="table-result">
+                    <thead>
+                        <tr>
+                            <th>Course Code</th>
+                            <th>Name</th>
+                            <th>Grade</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </fieldset>
+
+    </div>
+</div>
+
+@section scripts
+{
+
+    <script src="~/Scripts/jquery-3.2.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#student-enroll-course').validate({
+                rules: {
+                    StudentId: "required",
+                },
+                messages: {
+                    StudentId: "Please Select Department",
+
+                }
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+
+            $("#StudentId").change(function() {
+                var studentId = $("#StudentId").val();
+                $("#Name").val("");
+                $('#Email').val("");
+                $('#DepartmentName').val("");
+                $('#DepartmentId').val("");
+
+
+                var json = { Id: studentId };
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("GetStudentById", "Student")',
+                    contentType: "application/json;Charset=utf-8",
+                    data: JSON.stringify(json),
+                    success: function(data) {
+
+
+                        $("#Name").val(data.StudentName);
+                        $('#Email').val(data.StudentEmail);
+                        $('#DepartmentName').val(data.DepartmentName);
+                        $('#DepartmentId').val(data.DepartmentId);
+
+                    }
+                });
+            });
+        });
+        $(document).ready(function () {
+
+            $("#StudentId").change(function () {
+                var studentId = $("#StudentId").val();
+                var json = { StudentId: studentId };
+                $('#table-result').empty();
+                
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("GetStudentResult", "Student")',
+                    contentType: "application/json;Charset=utf-8",
+                    data: JSON.stringify(json),
+                    success: function (data) {
+                        console.log(data);
+                        $("#table-result").append("<thead><tr><th>CourseCode</th><th>Name</th><th>Grade</th></tr></thead>");
+                        var html = "'<tbody>";
+                        for (var i = 0; i < data.length; i++) {
+                            var r = data[i];
+                            html += '<tr><td>' + r.CourseCode + '</td><td>' + r.CourseName + '</td>';
+                            if (r.GradeName=="Not Graded") {
+                                html += '<td>Not Graded Yet</td></tr>';
+                            }
+                            else {
+                                html += '<td>'+r.GradeName+'</td></tr>';
+                            }
+                            
+                        }
+                        html += '</body>';
+                        $("#table-result").append(html);
+                    }
+                    
+                });
+            });
+        });
+    </script>
+    
+}

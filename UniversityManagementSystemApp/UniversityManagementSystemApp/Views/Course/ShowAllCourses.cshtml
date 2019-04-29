@@ -1,0 +1,82 @@
+﻿@using UniversityManagementSystemApp.Models
+
+@{
+    ViewBag.Title = "ShowAllCourses";
+    Layout = "~/Views/Shared/_MyLayout.cshtml";
+    List<Department> departments = ViewBag.Department;
+}
+
+
+<div class="form-group page-body">
+    <fieldset class="the-fieldset">
+        <legend class="the-legend">View Course Statistics</legend>
+
+        <form class="form-horizontal" name="f" id="form-department" method="POST">
+
+            <div class="form-group">
+                <label class="control-label col-sm-3" for="DepartmentId">Department:</label>
+                <div class="col-sm-6">
+
+                    <select class="form-control" name="DepartmentId" id="DepartmentId">
+                        <option value="">--Select Department--</option>
+                        @foreach (var department in departments)
+                        {
+                            <option value="@department.Id">@department.Name</option>
+                        }
+                    </select>
+                </div>
+                <div class="3"></div>
+            </div>
+        </form>
+
+        <div>
+            <div>
+                <table class="table table-hover table-bordered" id="table-course">
+                    <thead>
+                        <tr>
+                            <th>Code</th>
+                            <th>Name/Title</th>
+                            <th>Semester</th>
+                            <th>Assign To</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </fieldset>
+
+
+</div>
+<script>
+    $(document).ready(function () {
+        $("#form-department").change(function () {
+            var departmentId = $("#DepartmentId").val();
+            $("#table-course").empty();
+            var json = { DepartmentId: departmentId };
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GetAllCourses", "Course")',
+                contentType: "application/json;Charset=utf-8",
+                data: JSON.stringify(json),
+                success: function (data) {
+                    $("#table-course").append('<thead><tr><th>Code</th><th>Name/Title</th><th>Semester</th><th>Assign To<t/h></tr><thead>');
+                    $.each(data, function (key, value) {
+                        if (value.CourseStatus == "unassigned") {
+                            $("#table-course").append('<tbody><tr><td>' + value.CourseCode + '</td><td>' + value.CourseName + '</td><td>' + value.SemesterName + '</td><td>Not Assigned Yet</td></tr></tbody>');
+                        } else {
+                            $("#table-course").append('<tbody><tr><td>' + value.CourseCode + '</td><td>' + value.CourseName + '</td><td>' + value.SemesterName + '</td><td>' + value.TeacherName + '</td></tr></tbody>');
+                        }
+
+
+
+                    });
+                    
+
+                }
+            });
+        });
+    });
+</script>

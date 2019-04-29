@@ -1,0 +1,65 @@
+﻿@{
+    ViewBag.Title = "UnallocateAllClassroom";
+    Layout = "~/Views/Shared/_MyLayout.cshtml";
+}
+
+<div>
+    <div class="form-group">
+        <fieldset class="the-fieldset">
+            <legend class="the-legend">Unallocate All Classrooms</legend>
+
+            @if (ViewBag.ErrorMessage != null)
+            {
+                <div class="error-message">
+                    <span class="error-message">@ViewBag.ErrorMessage</span>
+                </div>
+            }
+
+
+
+            @if (ViewBag.SuccessMessage != null)
+            {
+                <div class="success-message">
+                    <span class="success-message">@ViewBag.SuccessMessage</span>
+                </div>
+
+            }
+
+
+
+            <div>
+                <form class="form-horizontal" id="form-department" onsubmit="return MyFunction();" method="POST">
+
+                    <div class="form-group">
+                        <div class="col-sm-3"></div>
+                        <div class="col-sm-6" align="center">
+                            <button type="submit" class="btn btn-default btn-reset">Unallocate All Classrooms</button>
+                        </div>
+                        <div class="col-sm-3"></div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+
+
+    </div>
+
+</div>
+@section scripts
+{
+    <script>
+        function MyFunction() {
+
+
+            var res = confirm('Are you sure to unallocate all classrooms info?');
+            if (res) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+
+    </script>
+
+}
